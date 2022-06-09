@@ -21,7 +21,7 @@ app.get('/', async (req, res) => {
 app.get('/classes', async (req, res) => {
 	try {
 		const data = await fetchData(url)
-		const classes = data.map(row => row.class)
+		const classes = data.map(entry => entry.class)
 		res.send(cleanArray(classes).sort())
 	} catch (err) {
 		res.status(500).send({ error: (err as any).message })
@@ -60,7 +60,7 @@ app.get('/cars/count', async (req, res) => {
 		const cars = data.map(row => row.car)
 
 		const counts = cars.reduce((acc, car) => {
-			acc[car] = (acc[car] || 0) + 1
+			acc[car.model] = (acc[car.model] || 0) + 1
 			return acc
 		}, {} as { [key: string]: number })
 
