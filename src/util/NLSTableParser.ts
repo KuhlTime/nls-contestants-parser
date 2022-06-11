@@ -71,11 +71,18 @@ function parse(body: string): Entry[] {
 								const city: string | undefined = contender.split('<span class="mobhide">(')[1]?.split(')</span>')[0]
 
 								// replace all occurences the <span></span> tag and everything inside it with an empty string
-								let contenderWithoutSpan = contender.replace(/<span.*<\/span>/, '')
+								let contenderWithoutSpan = contender.replace(/<span.*<\/span>/, '').clean()
 
-								if (contenderWithoutSpan.clean() !== '') {
-									contenders.push({ name: contenderWithoutSpan.clean(), isTeam: false, city })
+								if (contenderWithoutSpan.length === 0) return
+
+								if (contenderWithoutSpan.endsWith(',')) {
+									contenderWithoutSpan = contenderWithoutSpan.substring(0, contenderWithoutSpan.length - 1)
 								}
+
+								// replace all ' with " inside the contenderWithoutSpan string
+								contenderWithoutSpan = contenderWithoutSpan.replace(/"/g, '"')
+
+								contenders.push({ name: contenderWithoutSpan.clean(), isTeam: false, city })
 							})
 					}
 
