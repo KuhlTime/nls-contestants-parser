@@ -5,6 +5,7 @@ import '../@types/StringExtensions'
 export interface Entry {
 	car: Car
 	class: string
+	team?: string
 	contenders?: Contender[]
 	number: string
 	imageUrl?: string
@@ -13,12 +14,12 @@ export interface Entry {
 export interface Contender {
 	name?: string
 	city?: string
-	isTeam?: boolean
 }
 
 export interface Car {
 	brand: string
 	model: string
+	combined: string
 }
 
 function parse(body: string): Entry[] {
@@ -50,10 +51,12 @@ function parse(body: string): Entry[] {
 					entry.class = $cell.text().clean()
 					break
 				case 3:
-					const contenders: Contender[] = []
-
 					const raceHouse = $cell.find('b').first().text().clean()
-					raceHouse !== '' ? contenders.push({ name: raceHouse, isTeam: true }) : null
+					if (raceHouse !== '') {
+						entry.team = raceHouse
+					}
+
+					const contenders: Contender[] = []
 
 					// Driver names
 					if ($cell.html()) {
@@ -82,7 +85,7 @@ function parse(body: string): Entry[] {
 								// replace all ' with " inside the contenderWithoutSpan string
 								contenderWithoutSpan = contenderWithoutSpan.replace(/"/g, '"')
 
-								contenders.push({ name: contenderWithoutSpan.clean(), isTeam: false, city })
+								contenders.push({ name: contenderWithoutSpan.clean(), city })
 							})
 					}
 
@@ -96,6 +99,8 @@ function parse(body: string): Entry[] {
 							brand: lines[0].clean(),
 							model: lines[1].clean()
 						}
+
+						entry.car.combined = entry.car.brand + ' ' + entry.car.model
 					}
 					break
 				case 5:

@@ -57,7 +57,7 @@ app.get('/classes/count', async (req, res) => {
 app.get('/cars', async (req, res) => {
 	try {
 		const data = await fetchData(url)
-		const cars = data.map(row => row.car)
+		const cars = data.map(row => row.car.combined)
 		res.send(cleanArray(cars).sort())
 	} catch (err) {
 		res.status(500).send({ error: (err as any).message })
@@ -70,11 +70,57 @@ app.get('/cars/count', async (req, res) => {
 		const cars = data.map(row => row.car)
 
 		const counts = cars.reduce((acc, car) => {
-			acc[car.model] = (acc[car.model] || 0) + 1
+			acc[car.combined] = (acc[car.combined] || 0) + 1
 			return acc
 		}, {} as { [key: string]: number })
 
 		res.send(counts)
+	} catch (err) {
+		res.status(500).send({ error: (err as any).message })
+	}
+})
+
+app.get('/drivers', async (req, res) => {
+	try {
+		const data = await fetchData(url)
+		const drivers = data.flatMap(row => row.contenders.map(contender => contender.name))
+
+		res.send(drivers)
+	} catch (err) {
+		res.status(500).send({ error: (err as any).message })
+	}
+})
+
+app.get('/drivers/count', async (req, res) => {
+	try {
+		const data = await fetchData(url)
+		const drivers = data.flatMap(row => row.contenders.map(contender => contender.name))
+
+		res.send({ count: drivers.length })
+	} catch (err) {
+		res.status(500).send({ error: (err as any).message })
+	}
+})
+
+// A team name is not always avaialble
+app.get('/teams', async (req, res) => {
+	try {
+		const data = await fetchData(url)
+		const teams = data.flatMap(row => row.team)
+
+		res.send(cleanArray(teams))
+	} catch (err) {
+		res.status(500).send({ error: (err as any).message })
+	}
+})
+
+// A team name is not always avaialble
+app.get('/teams/count', async (req, res) => {
+	try {
+		const data = await fetchData(url)
+		const teams = data.flatMap(row => row.team)
+
+		res.send({ count: teams.length })
 	} catch (err) {
 		res.status(500).send({ error: (err as any).message })
 	}

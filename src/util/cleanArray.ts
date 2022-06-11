@@ -5,6 +5,6 @@
  * @returns Returns a cleaned array of strings without empty `null` values.
  */
 export default function cleanArray<T>(values: Array<T | null>): Array<T> {
-	const a = values.filter(v => v !== null || v !== undefined) as Array<T>
+	const a = values.filter(v => v !== null && v !== undefined) as Array<T>
 	return Array.from(new Set(a))
 }

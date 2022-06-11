@@ -13,6 +13,10 @@ Rate limiter is set to `100` request per `15 minutes`.
   - `/classes/count`: Returns the number of contenders in each class
 - `/cars`: Returns a sorted JSON array of all car names
   - `/cars/count`: Returns the number of contenders that drive the same car
+- `/drivers`: Returns an array of all driver names
+  - `/drivers/count`: Returns the number of contenders
+- `/teams`: Returns an array of all team names (CAREFUL: Not all cars belong to a team!)
+  - `/teams/count`: Return the number of teams there are
 
 ## Caching
 
