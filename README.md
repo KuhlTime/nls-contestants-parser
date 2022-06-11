@@ -1,6 +1,6 @@
 # nls-contestants-parser
 
-Data attribution: [nuerburgring-langstrecken-serie.de]('https://www.nuerburgring-langstrecken-serie.de/de/nls-teilnehmer-2022/')
+Data attribution: [nuerburgring-langstrecken-serie.de](https://www.nuerburgring-langstrecken-serie.de/de/nls-teilnehmer-2022/)
 
 ## API Rate Limiter
 
