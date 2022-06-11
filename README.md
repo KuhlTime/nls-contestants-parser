@@ -13,3 +13,7 @@ Rate limiter is set to `100` request per `15 minutes`.
   - `/classes/count`: Returns the number of contenders in each class
 - `/cars`: Returns a sorted JSON array of all car names
   - `/cars/count`: Returns the number of contenders that drive the same car
+
+## Caching
+
+In order to reduce stress on the original website the data is cached locally and only updated every `8 hours`
